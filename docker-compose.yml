@@ -1,4 +1,4 @@
-version: "3.10"
+version: "3.3"
 
 services:
   admin:
@@ -9,7 +9,7 @@ services:
 #    volumes:
 #       - ./django_gift:/code
     env_file:
-      - django_gift/.env.example
+      - django_gift/.env
     ports:
       - "8000:8000"
     depends_on:
@@ -26,7 +26,7 @@ services:
     volumes:
       - ./bot:/code
     env_file:
-      - bot/.env.example
+      - bot/.env
     depends_on:
       - main_db
       - redis
@@ -37,7 +37,7 @@ services:
   main_db:
     image: postgres:13.2
     env_file:
-      - .env.db.example
+      - .env.db
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "user", "-d", "postgres"]
       interval: 5s
