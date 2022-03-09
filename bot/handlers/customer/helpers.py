@@ -24,7 +24,7 @@ PackageData = CallbackData(
     'vote', 'action', 'is_package_needed', 'gift_id', 'package_id'
 )
 
-cache_folder = Path('../django_gift/media')
+cache_folder = Path('../media')
 
 
 async def prepare_gift_message(

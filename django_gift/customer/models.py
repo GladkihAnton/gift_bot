@@ -51,7 +51,7 @@ class Recipient(models.Model):
 class Gift(models.Model):
     name = models.CharField(max_length=256)
 
-    image = models.ImageField('img', upload_to=settings.MEDIA_ROOT + 'img_cache/gifts')
+    image = models.ImageField('img', upload_to='img_cache/gifts')
     file_id = models.CharField(max_length=256, null=True, blank=True)
 
     hobbies = models.ManyToManyField('Hobby', related_name='gifts')
@@ -83,7 +83,7 @@ class GiftType(models.Model):
 class Package(models.Model):
     name = models.CharField(max_length=256)
     image = models.ImageField(
-        'package_img', upload_to=settings.MEDIA_ROOT + 'img_cache/packages'
+        'package_img', upload_to='img_cache/packages'
     )
     file_id = models.CharField(max_length=256, null=True, blank=True)
 
@@ -155,7 +155,7 @@ class Comment(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     recipient = models.ForeignKey(Recipient, on_delete=models.CASCADE)
     comment = models.CharField(max_length=128, null=True)
-    voice = models.FileField(upload_to=settings.MEDIA_ROOT + 'voice_cache/', null=True)
+    voice = models.FileField(upload_to='voice_cache/', null=True)
 
     class Meta:
         db_table = 'comment'

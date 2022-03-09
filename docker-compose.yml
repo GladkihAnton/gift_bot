@@ -5,9 +5,10 @@ services:
     build:
       dockerfile: django_gift/Dockerfile
       context: .
-    command: scripts/web/startup.sh -mm -m -l
-#    volumes:
-#       - ./django_gift:/code
+    command: ../scripts/web/startup.sh -mm -m -l
+    volumes:
+      - ./django_gift:/code
+      - media_volume:/media
     env_file:
       - django_gift/.env
     ports:
@@ -25,6 +26,7 @@ services:
     command: python main.py
     volumes:
       - ./bot:/code
+      - media_volume:/media
     env_file:
       - bot/.env
     depends_on:
@@ -53,6 +55,8 @@ services:
     networks:
       - gift_network
 
+volumes:
+    media_volume:
 
 networks:
   gift_network:
