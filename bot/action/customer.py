@@ -1,0 +1,8 @@
+TO_CHOOSE_ACTION = 'К выбору получателя'
+CHOOSE_PACKAGE_ACTION = 'package_is_chosen'
+RANDOM_CHOOSING = 'random_choosing'
+MANUALLY_CHOOSING = 'manually_choosing'
+CHOSE_RECIPIENT_ACTION = 'chose_recipient_action'
+CHOSE_HOLIDAY_ACTION = 'chose_holiday_action'
+CHECK_STATUS_ACTION = 'Статус отправленных подарков'
+LIKE_OR_DISLIKE_ACTION = 'like_or_dislike'

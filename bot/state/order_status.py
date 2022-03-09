@@ -1,0 +1,6 @@
+class OrderStatus:
+    CHOSEN = 1
+    BOUGHT = 2
+    VERIFICATION_WAITING = 3
+    QUALITY_CHECKED = 4
+    DELIVERED = 5

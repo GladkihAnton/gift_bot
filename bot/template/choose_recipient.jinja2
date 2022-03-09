@@ -1,0 +1,5 @@
+Выберите номер получателя, которому хотите сделать подарок:
+
+{% for index, recipient in recipients_info.items() %}
+Номер: {{ index }} - {{ recipient["info"].full_name }}
+{% endfor %}
