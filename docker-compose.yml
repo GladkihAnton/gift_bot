@@ -1,6 +1,18 @@
 version: "3.3"
 
 services:
+  nginx:
+    build: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - media_volume:/media
+    depends_on:
+      - admin
+    networks:
+      - gift_network
+
   admin:
     build:
       dockerfile: django_gift/Dockerfile
@@ -11,8 +23,6 @@ services:
       - media_volume:/media
     env_file:
       - django_gift/.env
-    ports:
-      - "8000:8000"
     depends_on:
       - main_db
       - redis
@@ -45,8 +55,6 @@ services:
       interval: 5s
       retries: 5
     restart: always
-    ports:
-      - "5432:5432"
     networks:
       - gift_network
 
