@@ -51,7 +51,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 class HobbyAdmin(admin.ModelAdmin):
-    pass
+    ordering = ('name',)
 
 
 class OrderAdmin(admin.ModelAdmin):

@@ -158,6 +158,11 @@ class Hobby(models.Model):
         db_table = 'hobby'
         verbose_name = 'Интерес'
         verbose_name_plural = 'Интересы'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name'], name='unique hobby name'
+            )
+        ]
 
 
 class Holiday(models.Model):
