@@ -1,18 +1,24 @@
-from django.conf import settings
 from django.db import models
 
 
 class Customer(models.Model):
-    username = models.CharField(max_length=256, primary_key=True)
-    password = models.CharField(max_length=128, null=False)
+    username = models.CharField(
+        max_length=256, primary_key=True, verbose_name='Телеграм логин'
+    )
+    password = models.CharField(max_length=128, null=False, verbose_name='Пароль')
 
     chat_id = models.IntegerField(null=True, blank=True)
 
-    account_status = models.CharField(max_length=32, null=True, blank=True)
+    account_status = models.CharField(max_length=32, null=True, blank=True, verbose_name='Роль')
     created_at = models.DateTimeField(auto_now_add=True)
 
     recipients = models.ManyToManyField(
-        'Recipient', symmetrical=False, default=[], related_name='customers', blank=True
+        'Recipient',
+        symmetrical=False,
+        default=[],
+        related_name='customers',
+        blank=True,
+        verbose_name='Получатели',
     )
 
     def __str__(self):
@@ -25,19 +31,27 @@ class Customer(models.Model):
 
 
 class Recipient(models.Model):
-    full_name = models.CharField(max_length=256, null=False)
+    full_name = models.CharField(max_length=256, null=False, verbose_name='ФИО')
 
-    company_name = models.CharField(max_length=256, null=False)
-    position = models.CharField(max_length=256, null=False)
+    company_name = models.CharField(max_length=256, null=False, verbose_name='Компания')
+    position = models.CharField(max_length=256, null=False, verbose_name='Должность')
 
-    birthday = models.DateField(null=False)
-    sex = models.ForeignKey('Sex', on_delete=models.CASCADE)
+    birthday = models.DateField(null=False, verbose_name='Дата рождения')
+    sex = models.ForeignKey('Sex', on_delete=models.CASCADE, verbose_name='Пол')
 
-    contact_info = models.CharField(max_length=256, null=False)
-    delivery_address = models.CharField(max_length=256, null=False)
+    contact_info = models.CharField(
+        max_length=256, null=False, verbose_name='Контактная информация'
+    )
+    delivery_address = models.CharField(
+        max_length=256, null=False, verbose_name='Адрес доставки'
+    )
 
-    hobbies = models.ManyToManyField('Hobby', related_name='recipients')
-    holidays = models.ManyToManyField('Holiday', related_name='recipients')
+    hobbies = models.ManyToManyField(
+        'Hobby', related_name='recipients', verbose_name='Интересы'
+    )
+    holidays = models.ManyToManyField(
+        'Holiday', related_name='recipients', verbose_name='Праздники'
+    )
 
     gifts = models.ManyToManyField(
         'Gift', related_name='recipients', through='SuggestedGift'
@@ -53,19 +67,23 @@ class Recipient(models.Model):
 
 
 class Gift(models.Model):
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, verbose_name='Название')
 
-    image = models.ImageField('img', upload_to='img_cache/gifts')
+    image = models.ImageField(upload_to='img_cache/gifts', verbose_name='Картинка')
     file_id = models.CharField(max_length=256, null=True, blank=True)
 
-    hobbies = models.ManyToManyField('Hobby', related_name='gifts')
-    package = models.ForeignKey('Package', models.CASCADE)
-    description = models.CharField(max_length=256)
-    type = models.ForeignKey('GiftType', on_delete=models.PROTECT)
-    sex = models.ForeignKey('Sex', on_delete=models.PROTECT)
-    coolness = models.IntegerField()
-    price = models.DecimalField(decimal_places=3, max_digits=10)
-    link = models.CharField(max_length=256)
+    hobbies = models.ManyToManyField(
+        'Hobby', related_name='gifts', verbose_name='Интересы'
+    )
+    package = models.ForeignKey('Package', models.CASCADE, verbose_name='Упаковка')
+    description = models.CharField(max_length=256, verbose_name='Описание')
+    type = models.ForeignKey(
+        'GiftType', on_delete=models.PROTECT, verbose_name='Тип подарка'
+    )
+    sex = models.ForeignKey('Sex', on_delete=models.PROTECT, verbose_name='Пол')
+    coolness = models.IntegerField(verbose_name='Прикольность')
+    price = models.DecimalField(decimal_places=3, max_digits=10, verbose_name='Цена')
+    link = models.CharField(max_length=256, verbose_name='Ссылка')
 
     def __str__(self):
         return '%s' % self.name
@@ -77,7 +95,7 @@ class Gift(models.Model):
 
 
 class GiftType(models.Model):
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, verbose_name='Название')
 
     def __str__(self):
         return '%s' % self.name
@@ -89,10 +107,8 @@ class GiftType(models.Model):
 
 
 class Package(models.Model):
-    name = models.CharField(max_length=256)
-    image = models.ImageField(
-        'package_img', upload_to='img_cache/packages'
-    )
+    name = models.CharField(max_length=256, verbose_name='Название')
+    image = models.ImageField(upload_to='img_cache/packages', verbose_name='Картинка')
     file_id = models.CharField(max_length=256, null=True, blank=True)
 
     def __str__(self):
@@ -105,11 +121,11 @@ class Package(models.Model):
 
 
 class SuggestedGift(models.Model):
-    gift = models.ForeignKey(Gift, models.CASCADE)
-    customer = models.ForeignKey(Customer, models.CASCADE)
-    recipient = models.ForeignKey(Recipient, models.CASCADE)
+    gift = models.ForeignKey(Gift, models.CASCADE, verbose_name='Подарок')
+    customer = models.ForeignKey(Customer, models.CASCADE, verbose_name='Отправитель')
+    recipient = models.ForeignKey(Recipient, models.CASCADE, verbose_name='Получатель')
     checked = models.BooleanField()
-    presented = models.BooleanField(default=False)
+    presented = models.BooleanField(default=False, verbose_name='Подарен?')
 
     class Meta:
         db_table = 'suggested_gift'
@@ -121,7 +137,7 @@ class SuggestedGift(models.Model):
 
 
 class Sex(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, verbose_name='Название')
 
     def __str__(self):
         return '%s' % self.name
@@ -133,7 +149,7 @@ class Sex(models.Model):
 
 
 class Hobby(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, verbose_name='Название')
 
     def __str__(self):
         return '%s' % self.name
@@ -145,8 +161,8 @@ class Hobby(models.Model):
 
 
 class Holiday(models.Model):
-    name = models.CharField(max_length=128)
-    active = models.BooleanField(default=True)
+    name = models.CharField(max_length=128, verbose_name='Название')
+    active = models.BooleanField(default=True, verbose_name='Активен?')
 
     def __str__(self):
         return '%s' % self.name
@@ -158,7 +174,7 @@ class Holiday(models.Model):
 
 
 class OrderStatus(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, verbose_name='Название')
 
     def __str__(self):
         return '%s' % self.name
@@ -170,10 +186,14 @@ class OrderStatus(models.Model):
 
 
 class Comment(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    recipient = models.ForeignKey(Recipient, on_delete=models.CASCADE)
-    comment = models.CharField(max_length=128, null=True)
-    voice = models.FileField(upload_to='voice_cache/', null=True)
+    customer = models.ForeignKey(
+        Customer, on_delete=models.CASCADE, verbose_name='Отправитель'
+    )
+    recipient = models.ForeignKey(
+        Recipient, on_delete=models.CASCADE, verbose_name='Получатель'
+    )
+    comment = models.CharField(max_length=128, null=True, verbose_name='Комментарий')
+    voice = models.FileField(upload_to='voice_cache/', null=True, verbose_name='Аудио')
 
     def __str__(self):
         return '%s для %s' % (self.customer.username, self.recipient.full_name)
@@ -185,22 +205,26 @@ class Comment(models.Model):
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, models.CASCADE)
-    recipient = models.ForeignKey(Recipient, models.CASCADE)
+    customer = models.ForeignKey(Customer, models.CASCADE, verbose_name='Отправитель')
+    recipient = models.ForeignKey(Recipient, models.CASCADE, verbose_name='Получатель')
 
-    gift = models.ForeignKey(Gift, models.CASCADE)
-    holiday = models.ForeignKey(Holiday, models.CASCADE)
+    gift = models.ForeignKey(Gift, models.CASCADE, verbose_name='Подарок')
+    holiday = models.ForeignKey(Holiday, models.CASCADE, verbose_name='Праздник')
 
-    status = models.ForeignKey(OrderStatus, models.PROTECT)
+    status = models.ForeignKey(
+        OrderStatus, models.PROTECT, verbose_name='Статус заказа'
+    )
 
-    delivered_at = models.DateField(null=True, blank=True)
+    delivered_at = models.DateField(null=True, blank=True, verbose_name='Отправлен в')
     recipient_score = models.IntegerField(null=True, blank=True)
 
     order_address = models.CharField(
         max_length=128, null=True, blank=True
     )  # TODO maybe not null field
 
-    package = models.ForeignKey(Package, models.PROTECT, null=True, blank=True)
+    package = models.ForeignKey(
+        Package, models.PROTECT, null=True, blank=True, verbose_name='Упаковка'
+    )
 
     class Meta:
         db_table = 'order'
@@ -212,5 +236,3 @@ class Order(models.Model):
 
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-
-

@@ -16,7 +16,7 @@ from customer.models import (
 
 
 class CustomerAdmin(admin.ModelAdmin):
-    pass
+    exclude = ['chat_id']
 
 
 class RecipientAdmin(admin.ModelAdmin):
@@ -39,6 +39,15 @@ class CommentAdmin(admin.ModelAdmin):
 
     def recipient(self, obj):
         return obj.recipient.full_name
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class HobbyAdmin(admin.ModelAdmin):
