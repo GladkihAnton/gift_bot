@@ -20,6 +20,8 @@ class Customer(models.Model):
 
     class Meta:
         db_table = 'customer'
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
 
 
 class Recipient(models.Model):
@@ -46,6 +48,8 @@ class Recipient(models.Model):
 
     class Meta:
         db_table = 'recipient'
+        verbose_name = 'Получатель'
+        verbose_name_plural = 'Получатели'
 
 
 class Gift(models.Model):
@@ -68,6 +72,8 @@ class Gift(models.Model):
 
     class Meta:
         db_table = 'gift'
+        verbose_name = 'Подарок'
+        verbose_name_plural = 'Подарки'
 
 
 class GiftType(models.Model):
@@ -78,6 +84,8 @@ class GiftType(models.Model):
 
     class Meta:
         db_table = 'gift_type'
+        verbose_name = 'Тип подарка'
+        verbose_name_plural = 'Типы подарков'
 
 
 class Package(models.Model):
@@ -92,6 +100,8 @@ class Package(models.Model):
 
     class Meta:
         db_table = 'package'
+        verbose_name = 'Упаковка'
+        verbose_name_plural = 'Упаковки'
 
 
 class SuggestedGift(models.Model):
@@ -118,6 +128,8 @@ class Sex(models.Model):
 
     class Meta:
         db_table = 'sex'
+        verbose_name = 'Пол'
+        verbose_name_plural = 'Пола'
 
 
 class Hobby(models.Model):
@@ -128,6 +140,8 @@ class Hobby(models.Model):
 
     class Meta:
         db_table = 'hobby'
+        verbose_name = 'Интерес'
+        verbose_name_plural = 'Интересы'
 
 
 class Holiday(models.Model):
@@ -139,16 +153,20 @@ class Holiday(models.Model):
 
     class Meta:
         db_table = 'holiday'
+        verbose_name = 'Праздник'
+        verbose_name_plural = 'Праздники'
 
 
 class OrderStatus(models.Model):
     name = models.CharField(max_length=128)
 
-    class Meta:
-        db_table = 'order_status'
-
     def __str__(self):
         return '%s' % self.name
+
+    class Meta:
+        db_table = 'order_status'
+        verbose_name = 'Статус заказа'
+        verbose_name_plural = 'Статусы заказов'
 
 
 class Comment(models.Model):
@@ -157,11 +175,13 @@ class Comment(models.Model):
     comment = models.CharField(max_length=128, null=True)
     voice = models.FileField(upload_to='voice_cache/', null=True)
 
-    class Meta:
-        db_table = 'comment'
-
     def __str__(self):
         return '%s для %s' % (self.customer.username, self.recipient.full_name)
+
+    class Meta:
+        db_table = 'comment'
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
 
 
 class Order(models.Model):
@@ -189,3 +209,8 @@ class Order(models.Model):
                 fields=['gift_id', 'recipient_id'], name='unique ordered gift'
             )
         ]
+
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+
+

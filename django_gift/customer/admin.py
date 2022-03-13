@@ -68,11 +68,11 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 class GiftAdmin(admin.ModelAdmin):
-    pass
+    exclude = ['file_id']
 
 
 class PackageAdmin(admin.ModelAdmin):
-    pass
+    exclude = ['file_id']
 
 
 class OrderStatusAdmin(admin.ModelAdmin):

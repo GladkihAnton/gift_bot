@@ -20,6 +20,7 @@ async def get_recipients_for_customer(
         .join(
             Order,
             and_(
+                Order.customer_id == username,
                 Order.recipient_id == Recipient.id,
                 Order.holiday_id == RecipientHolidays.holiday_id,
             ),
