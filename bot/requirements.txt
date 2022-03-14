@@ -8,3 +8,4 @@ pydantic==1.9.0
 SQLAlchemy==1.4.31
 python-dotenv==0.19.2
 aioredis==2.0.1
+openpyxl==3.0.9

@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Float, ForeignKey, Integer, String, Table
+from sqlalchemy import Boolean, Column, Date, Float, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 
 from .meta import Base
@@ -36,6 +36,8 @@ class Recipient(Base):
 
     delivery_address: Column = Column(String(256))
     contact_info: Column = Column(String(256))
+
+    sex_id: Column = Column(Integer, ForeignKey('sex.id'))
 
 
 class RecipientHobbies(Base):
@@ -178,3 +180,4 @@ class Order(Base):
 
     status_id = Column(Integer, ForeignKey('status.id'))
     package_id = Column(Integer, ForeignKey('package.id'), nullable=True)
+    delivered_at = Column(Date, nullable=True)

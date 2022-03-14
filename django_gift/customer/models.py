@@ -9,7 +9,9 @@ class Customer(models.Model):
 
     chat_id = models.IntegerField(null=True, blank=True)
 
-    account_status = models.CharField(max_length=32, null=True, blank=True, verbose_name='Роль')
+    account_status = models.CharField(
+        max_length=32, null=True, blank=True, verbose_name='Роль'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     recipients = models.ManyToManyField(
@@ -159,9 +161,7 @@ class Hobby(models.Model):
         verbose_name = 'Интерес'
         verbose_name_plural = 'Интересы'
         constraints = [
-            models.UniqueConstraint(
-                fields=['name'], name='unique hobby name'
-            )
+            models.UniqueConstraint(fields=['name'], name='unique hobby name')
         ]
 
 

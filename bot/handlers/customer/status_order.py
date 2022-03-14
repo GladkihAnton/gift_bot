@@ -1,12 +1,16 @@
+import os
+from datetime import datetime
+
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
+from aiogram.types.input_file import InputFile
 from db import async_db_connection
 
 from action.customer import CHECK_STATUS_ACTION
 from crud.order import get_orders
 from state.customer import CustomerState
-from template.loader import render_template
+from parser.order.excel import OrderExcel
 
 
 async def check_status_handler(message: Message, state: FSMContext):
@@ -17,8 +21,14 @@ async def check_status_handler(message: Message, state: FSMContext):
 
     if not orders:
         return await message.answer('Заказов нет')
-
-    return await message.answer(render_template('status_order.jinja2', orders=orders))
+    excel = OrderExcel()
+    excel.fill_orders(orders)
+    path_to_file = excel.save()
+    await message.answer_document(
+        InputFile(path_to_file, filename=f"status_orders_{datetime.now()}.xlsx")
+    )
+    os.remove(path_to_file)
+    return
 
 
 def register_handlers_check_order_status(dp: Dispatcher):
