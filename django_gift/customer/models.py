@@ -141,7 +141,7 @@ class SuggestedGift(models.Model):
         db_table = 'suggested_gift'
         constraints = [
             models.UniqueConstraint(
-                fields=['gift_id', 'recipient_id'], name='unique suggested gift'
+                fields=['customer_id', 'gift_id', 'recipient_id'], name='unique suggested gift'
             )
         ]
 
