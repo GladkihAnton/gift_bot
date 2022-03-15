@@ -39,12 +39,12 @@ async def check_password(message: Message, state: FSMContext):
             ).one()
         except NoResultFound:
             return await message.answer(
-                'Ваш аккаунт не зарегистрирован, обратитесь к администратору'
+                'Проверьте, верный ли пароль?'
             )
 
     if message.text != customer.password:
         return await message.answer(
-            'Пароль неверный, попробуйте снова или обратитесь к администратору'
+            'Проверьте, верный ли пароль?'
         )
 
     await state.set_state(CustomerState.START)

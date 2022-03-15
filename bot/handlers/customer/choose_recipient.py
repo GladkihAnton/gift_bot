@@ -33,10 +33,10 @@ async def to_choose_handler(message: Message, state: FSMContext):
 
     keyboard = InlineKeyboardMarkup().add(
         InlineKeyboardButton(
-            text='Случайный', callback_data=ActionData.new(action=RANDOM_CHOOSING)
+            text='Выбрать случайного получателя из вашего списка', callback_data=ActionData.new(action=RANDOM_CHOOSING)
         ),
         InlineKeyboardButton(
-            text='Конкретный',
+            text='Выбрать получателя из списка',
             callback_data=ActionData.new(action=MANUALLY_CHOOSING),
         ),
     )
