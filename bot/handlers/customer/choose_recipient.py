@@ -61,7 +61,7 @@ async def random_choose_handler(call: CallbackQuery, state: FSMContext):
 
     await state.set_state(CustomerState.CHOOSING_HOLIDAY)
 
-    await call.message.answer(render_template('recipient.jinja2', recipient=recipient))
+    await call.message.answer(render_template('recipient.jinja2', recipient=recipient.to_dict()))
 
     return await call.message.answer(
         render_template('choose_holiday.jinja2'),
