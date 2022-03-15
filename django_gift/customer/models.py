@@ -90,6 +90,10 @@ class Gift(models.Model):
     def __str__(self):
         return '%s' % self.name
 
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.file_id = None
+        super().save(force_insert, force_update, using, update_fields)
+
     class Meta:
         db_table = 'gift'
         verbose_name = 'Подарок'
@@ -115,6 +119,10 @@ class Package(models.Model):
 
     def __str__(self):
         return '%s' % self.name
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.file_id = None
+        super().save(force_insert, force_update, using, update_fields)
 
     class Meta:
         db_table = 'package'
