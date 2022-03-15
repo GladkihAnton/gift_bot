@@ -55,17 +55,17 @@ async def _like_handler(call: CallbackQuery, state: FSMContext, callback_data: D
             await get_package_by_id(conn, package_id=package_id)
         ).one()
 
-    if not file_id:
-        path = cache_folder / package_img
-        await upload_package_img_and_save_file_id(path, call, keyboard, package_id)
-        return await state.set_state(CustomerState.CHOOSING_PACKAGE)
-
-    await call.message.answer_photo(
-        file_id,
-        caption=render_template('package.jinja2'),
-        reply_markup=keyboard,
-    )
+    # if not file_id:
+    path = cache_folder / package_img
+    await upload_package_img_and_save_file_id(path, call, keyboard, package_id)
     return await state.set_state(CustomerState.CHOOSING_PACKAGE)
+
+    # await call.message.answer_photo(
+    #     file_id,
+    #     caption=render_template('package.jinja2'),
+    #     reply_markup=keyboard,
+    # )
+    # return await state.set_state(CustomerState.CHOOSING_PACKAGE)
 
 
 def register_handlers_gift_tinder(dp: Dispatcher):

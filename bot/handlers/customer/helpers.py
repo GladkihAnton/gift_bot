@@ -61,16 +61,16 @@ async def prepare_gift_message(
     text = render_template('gift.jinja2', gift=gift, sex=sex, type=gift_type)
     path = cache_folder / gift.image
 
-    if not gift.file_id:
-        await upload_gift_img_and_save_file_id(path, call, keyboard, text, gift.id)
-        return await state.set_state(CustomerState.TINDER)
-
-    await call.message.answer_photo(
-        gift.file_id,
-        caption=text,
-        reply_markup=keyboard,
-    )
+    # if not gift.file_id:
+    await upload_gift_img_and_save_file_id(path, call, keyboard, text, gift.id)
     return await state.set_state(CustomerState.TINDER)
+
+    # await call.message.answer_photo(
+    #     gift.file_id,
+    #     caption=text,
+    #     reply_markup=keyboard,
+    # )
+    # return await state.set_state(CustomerState.TINDER)
 
 
 def group_recipient_and_holidays(rows: namedtuple) -> Dict[Recipient, List[Dict]]:
