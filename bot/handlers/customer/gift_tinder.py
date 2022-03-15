@@ -24,7 +24,7 @@ async def like_or_dislike_handler(
     if callback_data['has_liked'] == 'True':
         return await _like_handler(call, state, callback_data)
 
-    chosen_recipient_id = (await state.get_data())['chosen_recipient']
+    chosen_recipient_id = int((await state.get_data())['chosen_recipient'])
     return await prepare_gift_message(call, state, chosen_recipient_id)
 
 

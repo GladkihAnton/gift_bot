@@ -20,8 +20,8 @@ async def choose_package_handler(
     state_data = await state.get_data()
 
     chosen_recipient_id, chosen_holiday_id = (
-        state_data['chosen_recipient'],
-        state_data['chosen_holiday'],
+        int(state_data['chosen_recipient']),
+        int(state_data['chosen_holiday']),
     )
 
     gift_id = int(callback_data['gift_id'])

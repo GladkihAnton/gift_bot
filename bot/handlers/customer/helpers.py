@@ -73,14 +73,14 @@ async def prepare_gift_message(
     return await state.set_state(CustomerState.TINDER)
 
 
-def group_recipient_and_holidays(rows: namedtuple) -> Dict[Recipient, List[Holiday]]:
+def group_recipient_and_holidays(rows: namedtuple) -> Dict[Recipient, List[Dict]]:
     result = {}
     for recipient, holiday in rows:
         if recipient not in result:
-            result[recipient] = [holiday]
+            result[recipient] = [holiday.to_dict()]
             continue
 
-        result[recipient].append(holiday)
+        result[recipient].append(holiday.to_dict())
 
     return result
 

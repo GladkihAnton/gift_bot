@@ -13,7 +13,7 @@ async def choose_holiday_handler(
     call: CallbackQuery, state: FSMContext, callback_data: Dict
 ):
     holiday_id = int(callback_data['holiday_id'])
-    recipient_id = (await state.get_data())['chosen_recipient']
+    recipient_id = int((await state.get_data())['chosen_recipient'])
     await state.update_data({'chosen_holiday': holiday_id})
 
     return await prepare_gift_message(call, state, recipient_id)

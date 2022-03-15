@@ -11,6 +11,16 @@ customer_recipients = Table(
 )
 
 
+class Jsonable:
+
+    def to_dict(self):
+        d = {}
+        for column in self.__table__.columns:
+            d[column.name] = str(getattr(self, column.name))
+
+        return d
+
+
 class Customer(Base):
     __tablename__ = 'customer'
 
@@ -25,7 +35,7 @@ class Customer(Base):
     )
 
 
-class Recipient(Base):
+class Recipient(Base, Jsonable):
     __tablename__ = 'recipient'
     id: Column = Column(Integer, primary_key=True, index=True)
 
@@ -66,16 +76,13 @@ class Hobby(Base):
     name: Column = Column(String(256))
 
 
-class Holiday(Base):
+class Holiday(Base, Jsonable):
     __tablename__ = 'holiday'
 
     id: Column = Column(Integer, primary_key=True, index=True)
 
     name = Column(String(256))
     active: Column = Column(Boolean, default=True)
-
-    def to_dict(self):
-        return {'id': self.id, 'name': self.name}
 
 
 class Sex(Base):

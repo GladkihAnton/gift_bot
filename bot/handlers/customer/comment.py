@@ -15,7 +15,7 @@ from template.loader import render_template
 async def commenting_handler(message: Message, state: FSMContext):
     comment_data = {
         'customer_id': message.from_user.username,
-        'recipient_id': (await state.get_data())['chosen_recipient'],
+        'recipient_id': int((await state.get_data())['chosen_recipient']),
     }
 
     if not message.text and not message.voice:

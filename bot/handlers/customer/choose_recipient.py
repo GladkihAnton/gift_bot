@@ -57,7 +57,7 @@ async def random_choose_handler(call: CallbackQuery, state: FSMContext):
 
     (recipient, holidays) = random.choice(list(recipient_to_holidays.items()))
 
-    await state.set_data({'chosen_recipient': recipient.id})
+    await state.set_data({'chosen_recipient': recipient['id']})
 
     await state.set_state(CustomerState.CHOOSING_HOLIDAY)
 
@@ -80,8 +80,8 @@ async def manually_choose_handler(call: CallbackQuery, state: FSMContext):
     if not rows:
         return await call.message.answer(render_template('error/no_recipients.jinja2'))
 
-    recipients_info: Dict[int, Dict[str, List[Holiday] | Recipient]] = {
-        index: {'info': recipient, 'holidays': holidays}
+    recipients_info: Dict[int, Dict[str, List[Dict] | Recipient]] = {
+        index: {'info': recipient.to_dict(), 'holidays': holidays}
         for index, (recipient, holidays) in enumerate(
             group_recipient_and_holidays(rows).items()
         )
@@ -103,11 +103,11 @@ async def choose_recipient_handler(message: Message, state: FSMContext):
     if not recipient_index.isdigit():
         return await message.answer('Введен неверный номер получателя')
 
-    if not (recipient_data := recipients_info.get(int(recipient_index))):
+    if not (recipient_data := recipients_info.get(recipient_index)):
         return await message.answer('Данный номер отсутствует в списке получателей')
 
     recipient: Recipient = recipient_data['info']
-    await state.set_data({'chosen_recipient': recipient.id})
+    await state.set_data({'chosen_recipient': recipient['id']})
 
     await message.answer(render_template('recipient.jinja2', recipient=recipient))
 
@@ -122,9 +122,9 @@ def _prepare_holidays_button(holidays: List[Holiday]) -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup().add(
         *[
             InlineKeyboardButton(
-                text=holiday.name,
+                text=holiday['name'],
                 callback_data=HolidayData.new(
-                    action=CHOSE_HOLIDAY_ACTION, holiday_id=holiday.id
+                    action=CHOSE_HOLIDAY_ACTION, holiday_id=holiday['id']
                 ),
             )
             for holiday in holidays
