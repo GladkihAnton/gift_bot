@@ -37,14 +37,14 @@ async def choose_package_handler(
         order_data.update({'package_id': int(callback_data['package_id'])})
 
     async with async_db_connection() as conn:
-        await create_order(conn, **order_data)
+        (order_id,) = (await create_order(conn, **order_data)).one()
         await update_suggested_gift(
             conn, call.from_user.username, chosen_recipient_id, gift_id
         )
         await conn.commit()
 
     await state.set_state(CustomerState.COMMENTING)
-    return await call.message.answer(render_template('comment.jinja2'))
+    return await call.message.answer(render_template('comment.jinja2', order_id=str(order_id).zfill(8)))
 
 
 def register_handlers_choose_package(dp: Dispatcher):

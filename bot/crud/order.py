@@ -27,4 +27,4 @@ async def get_orders(conn: AsyncSession, username: str) -> ChunkedIteratorResult
 
 
 async def create_order(conn: AsyncSession, **order_data) -> ChunkedIteratorResult:
-    return await conn.execute(insert(Order).values(**order_data))
+    return await conn.execute(insert(Order).values(**order_data).returning(Order.id))
