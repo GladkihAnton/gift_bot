@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from customer.models import (
+from recipient.models import (
     Comment,
     Customer,
     Gift,
