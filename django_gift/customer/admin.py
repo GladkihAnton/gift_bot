@@ -17,10 +17,14 @@ from customer.models import (
 
 class CustomerAdmin(admin.ModelAdmin):
     exclude = ['chat_id']
+    filter_horizontal = ('recipients',)
 
 
 class RecipientAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('full_name', 'sex')
+
+    def sex(self, obj):
+        return obj.sex.name
 
 
 class SexAdmin(admin.ModelAdmin):
@@ -55,7 +59,8 @@ class HobbyAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('username', 'recipient', 'gift', 'holiday', 'status', 'package')
+    list_display = ('id', 'username', 'recipient', 'gift', 'holiday', 'status', 'package')
+    search_fields = ['id', 'recipient__full_name']
 
     def username(self, obj):
         return obj.customer.username
