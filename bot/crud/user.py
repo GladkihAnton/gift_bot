@@ -5,7 +5,7 @@ from sqlalchemy.sql import and_, select
 from models.postgres import User, Holiday, Order, Recipient, RecipientHolidays
 
 
-async def get_customer(conn: AsyncSession, username: str) -> ChunkedIteratorResult:
+async def get_user(conn: AsyncSession, username: str) -> ChunkedIteratorResult:
     return await conn.execute(select(User).where(User.username == username))
 
 

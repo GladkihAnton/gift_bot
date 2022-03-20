@@ -17,7 +17,7 @@ from action.customer import (
     RANDOM_CHOOSING,
     TO_CHOOSE_ACTION,
 )
-from crud.customer import get_recipients_for_customer
+from crud.user import get_recipients_for_customer
 from handlers.customer.helpers import (
     ActionData,
     HolidayData,
