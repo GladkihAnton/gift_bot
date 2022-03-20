@@ -35,5 +35,5 @@ def register_handlers_check_order_status(dp: Dispatcher):
     dp.register_message_handler(
         check_status_handler,
         lambda message: message.text == CHECK_STATUS_ACTION,
-        state="*",
+        state=CustomerState.states,
     )

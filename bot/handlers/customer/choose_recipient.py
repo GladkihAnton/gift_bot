@@ -136,7 +136,7 @@ def _prepare_holidays_button(holidays: List[Holiday]) -> InlineKeyboardMarkup:
 
 def register_handlers_choose_recipient(dp: Dispatcher):
     dp.register_message_handler(
-        to_choose_handler, lambda message: message.text == TO_CHOOSE_ACTION, state="*"
+        to_choose_handler, lambda message: message.text == TO_CHOOSE_ACTION, state=CustomerState.states
     )
 
     dp.register_message_handler(

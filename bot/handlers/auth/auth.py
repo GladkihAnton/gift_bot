@@ -56,16 +56,20 @@ async def check_password(message: Message, state: FSMContext):
 
 
 async def _to_admin_handlers(message: Message, state: FSMContext):
+    main_buttons = ReplyKeyboardRemove()
+
     await state.set_state(AdminState.START)
     return await message.answer(
-        'Добро пожаловать, вы вошли как администратор, воспользуйтесь меню'
+        'Добро пожаловать, вы вошли как администратор, воспользуйтесь меню', reply_markup=main_buttons
     )
 
 
 async def _to_deliver_handlers(message: Message, state: FSMContext):
+    main_buttons = ReplyKeyboardRemove()
+
     await state.set_state(DeliverState.START)
     return await message.answer(
-        'Добро пожаловать, вы вошли как курьер, воспользуйтесь меню'
+        'Добро пожаловать, вы вошли как курьер, воспользуйтесь меню', reply_markup=main_buttons
     )
 
 
