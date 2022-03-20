@@ -44,7 +44,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('username', 'recipient', 'comment', 'voice')
 
     def username(self, obj):
-        return obj.user.username
+        return obj.customer.username
 
     def recipient(self, obj):
         return obj.recipient.full_name
@@ -68,7 +68,7 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['id', 'recipient__full_name']
 
     def username(self, obj):
-        return obj.user.username
+        return obj.customer.username
 
     def recipient(self, obj):
         return obj.recipient.full_name
