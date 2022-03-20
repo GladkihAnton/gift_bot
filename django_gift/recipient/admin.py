@@ -19,6 +19,11 @@ class CustomerAdmin(admin.ModelAdmin):
     exclude = ['chat_id']
     filter_horizontal = ('recipients',)
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        return qs.filter(account_status='customer')
+
 
 class RecipientAdmin(admin.ModelAdmin):
     list_display = ('full_name', 'sex')
@@ -39,7 +44,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('username', 'recipient', 'comment', 'voice')
 
     def username(self, obj):
-        return obj.customer.username
+        return obj.user.username
 
     def recipient(self, obj):
         return obj.recipient.full_name
@@ -63,7 +68,7 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['id', 'recipient__full_name']
 
     def username(self, obj):
-        return obj.customer.username
+        return obj.user.username
 
     def recipient(self, obj):
         return obj.recipient.full_name

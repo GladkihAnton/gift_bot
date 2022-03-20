@@ -1,34 +1,34 @@
 [
   {
-    "model": "customer.orderstatus",
+    "model": "recipient.orderstatus",
     "pk": 1,
     "fields": {
       "name": "Выбран"
     }
   },
   {
-    "model": "customer.orderstatus",
+    "model": "recipient.orderstatus",
     "pk": 2,
     "fields": {
       "name": "Куплен"
     }
   },
   {
-    "model": "customer.orderstatus",
+    "model": "recipient.orderstatus",
     "pk": 3,
     "fields": {
       "name": "Ожидает проверки"
     }
   },
   {
-    "model": "customer.orderstatus",
+    "model": "recipient.orderstatus",
     "pk": 4,
     "fields": {
       "name": "Качество проверено"
     }
   },
   {
-    "model": "customer.orderstatus",
+    "model": "recipient.orderstatus",
     "pk": 5,
     "fields": {
       "name": "Доставлен"

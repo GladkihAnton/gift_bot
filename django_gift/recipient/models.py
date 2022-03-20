@@ -1,35 +1,13 @@
 from django.db import models
 
+from user.models import User
 
-class Customer(models.Model):
-    username = models.CharField(
-        max_length=256, primary_key=True, verbose_name='Телеграм логин'
-    )
-    password = models.CharField(max_length=128, null=False, verbose_name='Пароль')
 
-    chat_id = models.IntegerField(null=True, blank=True)
-
-    account_status = models.CharField(
-        max_length=32, null=True, blank=True, verbose_name='Роль'
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    recipients = models.ManyToManyField(
-        'Recipient',
-        symmetrical=False,
-        default=[],
-        related_name='customers',
-        blank=True,
-        verbose_name='Получатели',
-    )
-
-    def __str__(self):
-        return '%s' % self.username
-
+class Customer(User):
     class Meta:
-        db_table = 'customer'
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        proxy = True
+        verbose_name = 'Заказчик'
+        verbose_name_plural = 'Заказчики'
 
 
 class Recipient(models.Model):
@@ -132,7 +110,7 @@ class Package(models.Model):
 
 class SuggestedGift(models.Model):
     gift = models.ForeignKey(Gift, models.CASCADE, verbose_name='Подарок')
-    customer = models.ForeignKey(Customer, models.CASCADE, verbose_name='Отправитель')
+    customer = models.ForeignKey(User, models.CASCADE, verbose_name='Отправитель')
     recipient = models.ForeignKey(Recipient, models.CASCADE, verbose_name='Получатель')
     checked = models.BooleanField()
     presented = models.BooleanField(default=False, verbose_name='Подарен?')
@@ -200,7 +178,7 @@ class OrderStatus(models.Model):
 
 class Comment(models.Model):
     customer = models.ForeignKey(
-        Customer, on_delete=models.CASCADE, verbose_name='Отправитель'
+        User, on_delete=models.CASCADE, verbose_name='Отправитель'
     )
     recipient = models.ForeignKey(
         Recipient, on_delete=models.CASCADE, verbose_name='Получатель'
@@ -218,7 +196,7 @@ class Comment(models.Model):
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, models.CASCADE, verbose_name='Отправитель')
+    customer = models.ForeignKey(User, models.CASCADE, verbose_name='Отправитель')
     recipient = models.ForeignKey(Recipient, models.CASCADE, verbose_name='Получатель')
 
     gift = models.ForeignKey(Gift, models.CASCADE, verbose_name='Подарок')
