@@ -49,16 +49,16 @@ class Recipient(models.Model):
 class Gift(models.Model):
     name = models.CharField(max_length=256, verbose_name='Название')
 
-    image = models.ImageField(upload_to='img_cache/gifts', verbose_name='Картинка')
+    image = models.ImageField(upload_to='img_cache/gifts', verbose_name='Картинка', null=True)
     file_id = models.CharField(max_length=256, null=True, blank=True)
 
     hobbies = models.ManyToManyField(
-        'Hobby', related_name='gifts', verbose_name='Интересы'
+        'Hobby', related_name='gifts', verbose_name='Интересы', null=True
     )
-    package = models.ForeignKey('Package', models.CASCADE, verbose_name='Упаковка')
+    package = models.ForeignKey('Package', models.CASCADE, verbose_name='Упаковка', null=True)
     description = models.CharField(max_length=256, verbose_name='Описание')
     type = models.ForeignKey(
-        'GiftType', on_delete=models.PROTECT, verbose_name='Тип подарка'
+        'GiftType', on_delete=models.PROTECT, verbose_name='Тип подарка', null=True
     )
     sex = models.ForeignKey('Sex', on_delete=models.PROTECT, verbose_name='Пол')
     coolness = models.IntegerField(verbose_name='Прикольность')
