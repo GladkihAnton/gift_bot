@@ -3,10 +3,10 @@ from sqlalchemy.orm import relationship
 
 from .meta import Base
 
-customer_recipients = Table(
-    'customer_recipients',
+user_recipients = Table(
+    'user_recipients',
     Base.metadata,
-    Column('customer_id', ForeignKey('customer.username'), primary_key=True),
+    Column('user_id', ForeignKey('user.username'), primary_key=True),
     Column('recipient_id', ForeignKey('recipient.id'), primary_key=True),
 )
 
@@ -21,8 +21,8 @@ class Jsonable:
         return d
 
 
-class Customer(Base):
-    __tablename__ = 'customer'
+class User(Base):
+    __tablename__ = 'user'
 
     username: Column = Column(String(256), primary_key=True, index=True)
     password: Column = Column(String(128), nullable=False)
@@ -31,7 +31,7 @@ class Customer(Base):
 
     chat_id: Column = Column(Integer)
     recipients = relationship(
-        "Recipient", secondary=customer_recipients, backref="customers"
+        "Recipient", secondary=user_recipients, backref="customers"
     )
 
 
@@ -145,7 +145,7 @@ class SuggestedGift(Base):
     id: Column = Column(Integer, primary_key=True, index=True)
 
     customer_id: Column = Column(
-        String(256), ForeignKey('customer.username'), nullable=False
+        String(256), ForeignKey('user.username'), nullable=False
     )
     gift_id: Column = Column(Integer, ForeignKey('gift.id'), nullable=False)
     recipient_id: Column = Column(Integer, ForeignKey('recipient.id'), nullable=False)
@@ -167,7 +167,7 @@ class Comment(Base):
 
     id: Column = Column(Integer, primary_key=True, index=True)
 
-    customer_id = Column(String(256), ForeignKey('customer.name'))
+    customer_id = Column(String(256), ForeignKey('user.name'))
     recipient_id = Column(Integer, ForeignKey('recipient.id'))
     comment: Column = Column(String(256))
     voice: Column = Column(String(256))
@@ -179,7 +179,7 @@ class Order(Base):
     id: Column = Column(Integer, primary_key=True, index=True)
 
     customer_id: Column = Column(
-        String(256), ForeignKey('customer.username'), nullable=False
+        String(256), ForeignKey('user.username'), nullable=False
     )
     gift_id: Column = Column(Integer, ForeignKey('gift.id'), nullable=False)
     recipient_id: Column = Column(Integer, ForeignKey('recipient.id'), nullable=False)

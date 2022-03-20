@@ -2,11 +2,11 @@ from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql import and_, select
 
-from models.postgres import Customer, Holiday, Order, Recipient, RecipientHolidays
+from models.postgres import User, Holiday, Order, Recipient, RecipientHolidays
 
 
 async def get_customer(conn: AsyncSession, username: str) -> ChunkedIteratorResult:
-    return await conn.execute(select(Customer).where(Customer.username == username))
+    return await conn.execute(select(User).where(User.username == username))
 
 
 async def get_recipients_for_customer(
@@ -14,7 +14,7 @@ async def get_recipients_for_customer(
 ) -> ChunkedIteratorResult:
     return await conn.execute(
         select(Recipient, Holiday)
-        .join(Customer.recipients)
+        .join(User.recipients)
         .join(RecipientHolidays, and_(Recipient.id == RecipientHolidays.recipient_id))
         .join(Holiday, and_(Holiday.id == RecipientHolidays.holiday_id))
         .join(
@@ -26,5 +26,5 @@ async def get_recipients_for_customer(
             ),
             isouter=True,
         )
-        .where(and_(Customer.username == username, Order.id.is_(None)))
+        .where(and_(User.username == username, Order.id.is_(None)))
     )
